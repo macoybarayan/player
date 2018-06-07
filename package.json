@@ -1,0 +1,14 @@
+{
+  "name": "flowplayer.commercial-7.0.4",
+  "version": "1.0.0",
+  "description": "Thank you for choosing Flowplayer. Follow updates on",
+  "main": "embed.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "flowplayer-hlsjs": "github:flowplayer/flowplayer-hlsjs"
+  }
+}

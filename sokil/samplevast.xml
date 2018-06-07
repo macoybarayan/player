@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VAST version="2.0">
+<Ad id="6763">
+<InLine>
+<AdSystem version="1.0.0.0">AdButler</AdSystem>
+<AdTitle><![CDATA[DiBella TVC 1]]></AdTitle>
+<Description><![CDATA[]]></Description>
+<Impression id="AB"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=views]]></Impression>
+<Error>
+<![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&error=[ERRORCODE]&ts=767442436]]>
+</Error>
+<Creatives>
+<Creative id="6763">
+<Linear>
+<Duration>00:00:30</Duration>
+<TrackingEvents>
+
+<Tracking event="creativeView"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=creativeView]]></Tracking>
+<Tracking event="start"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=start]]></Tracking>
+<Tracking event="firstQuartile"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=firstQuartile]]></Tracking>
+<Tracking event="thirdQuartile"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=thirdQuartile]]></Tracking>
+<Tracking event="midpoint"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=midpoint]]></Tracking>
+<Tracking event="complete"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=complete]]></Tracking>
+<Tracking event="mute"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=mute]]></Tracking>
+<Tracking event="unmute"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=unmute]]></Tracking>
+<Tracking event="pause"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=pause]]></Tracking>
+<Tracking event="rewind"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=rewind]]></Tracking>
+<Tracking event="resume"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=resume]]></Tracking>
+<Tracking event="fullscreen"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=fullscreen]]></Tracking>
+<Tracking event="exitFullscreen"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=exitFullscreen]]></Tracking>
+<Tracking event="expand"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=expand]]></Tracking>
+<Tracking event="collapse"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=collapse]]></Tracking>
+<Tracking event="acceptInvitation"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=acceptInvitation]]></Tracking>
+<Tracking event="close"><![CDATA[http://servedbyadbutler.com/callback.spark?ID=168640&bannerID=6763&publisherID=27614&campaignID=4064&setID=4015&advertiserID=81525&scheduleID=12155&placementID=12155&type=close]]></Tracking>
+</TrackingEvents>
+<VideoClicks>
+
+</VideoClicks>
+<MediaFiles>
+<MediaFile  type="video/mp4" width="1024" height="576" bitrate="706" delivery="progressive"><![CDATA[http://adbutler-fermion.com/libid422577/TVS-DiBELLA-GreatCoffee-30+-+converted+with+Clipchamp.mp4]]></MediaFile>
+</MediaFiles>
+</Linear>
+</Creative>
+<Creative sequence="1" id="6763">
+<CompanionAds required="any">
+</CompanionAds>
+</Creative>
+</Creatives>
+</InLine>
+</Ad>
+</VAST>

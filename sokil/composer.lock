@@ -1,0 +1,62 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "c8a66902cdc6351eca127c4857e9be62",
+    "packages": [
+        {
+            "name": "sokil/php-vast",
+            "version": "0.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sokil/php-vast.git",
+                "reference": "667e30e08c558979f6ae287188699706ed2a708b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sokil/php-vast/zipball/667e30e08c558979f6ae287188699706ed2a708b",
+                "reference": "667e30e08c558979f6ae287188699706ed2a708b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3|^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=3.7.38 <6.0",
+                "satooshi/php-coveralls": ">=0.7.1 <2.0",
+                "squizlabs/php_codesniffer": "^2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sokil\\Vast\\": [
+                        "src/",
+                        "tests/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmytro Sokil",
+                    "email": "dmytro.sokil@gmail.com"
+                }
+            ],
+            "description": "Generator and parser for VAST documents",
+            "time": "2017-11-27T10:39:07+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

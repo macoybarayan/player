@@ -1,0 +1,6 @@
+{
+    "name": "sokiltest",
+    "require": {
+        "sokil/php-vast": "^0.4.3"
+    }
+}

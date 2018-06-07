@@ -1,0 +1,140 @@
+<!doctype html>
+
+<head>
+	<meta charset="utf-8"/>
+	<!-- player skin -->
+	<link rel="stylesheet" href="skin/skin.css">
+	<link rel="stylesheet" href="vdyoplayer.css">
+
+	<!-- site specific styling -->
+	<style>
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			overflow: hidden
+		}
+
+		#vdyoplayer {
+			width: 100%;
+			height: 100%;
+			background: #000000;
+		}
+
+		.vdyoplayer {
+			height: 100%;
+		}
+	</style>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="js/hls.js"></script>
+	<script src="flowplayer.js"></script>
+	<script src="js/flowplayer-hlsjs.js"></script>
+
+	<script src="js/es5.js"></script>
+	<script src="js/assign.js"></script>
+	<script src="js/bind.js"></script>
+	<script src="js/HeatmapTracker.js"></script>
+	<!--<script src="js/advertisementAnalytics.js"></script>-->
+	<script src="js/Timer.js"></script>
+	<script src="js/ease.js"></script>
+	<script src="js/vdyoplay.js"></script>
+
+	<!-- load VAST assets after Flowplayer assets -->
+	<!-- IMA sdk -->
+<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+	<script src="vast.js"></script>
+	<!--<script src="//releases.flowplayer.org/vast/vdyo.co/vast.min.js"></script>-->
+
+
+</head>
+
+<body>
+	<div id="vdyoplayer" class="flowplayer"></div>
+
+
+	<script>
+		window.onload = function(){
+			flowplayer("#vdyoplayer", {
+			  // configure the VAST plugin for this player
+			  ima: {
+          adRules: "https://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614"
+			    // // adverts configuration
+			    // ads: [{
+			    //   // mandatory: schedule ad time
+			    //   // here: 3 seconds into the video
+			    //   time: 0,
+			    //   // request an advert with an adTag URL
+			    //   adTag: 'https://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614'
+			    // },
+			    // {
+			    //   // mandatory: schedule ad time
+			    //   // here: 3 seconds into the video
+			    //   time: -1,
+			    //   // request an advert with an adTag URL
+			    //   adTag: 'https://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614'
+			    // }
+			    // ],
+			    
+			  },
+			  // adverts in embedded player with iframe embedding
+			  embed: {
+			    iframe: "//flowplayer.org/standalone/vast/preroll-iframe.html"
+			  },
+			  clip:{
+			  	sources: [
+			      { type: "application/x-mpegurl",
+			        src:  "https://s3-ap-southeast-1.amazonaws.com/vdyopublic/6109_593164a006664/play.m3u8" }
+			    ]
+			  },
+			  splash: true,
+			  ratio: 9/16,
+			  
+			});
+      flowplayer(function (api) {
+  api.on("ima_ad_error", function (e, api, err) {
+    console.info("Ad error message: " + err.message);
+    console.info("Ad error code: " + err.code);
+  });
+});
+
+// var data = {
+			// 	content: {
+			// 		url: 'https://s3-ap-southeast-1.amazonaws.com/vdyopublic/6109_593164a006664/play.m3u8',
+			// 		title: 'abc',
+			// 		id: 123,
+			// 		creator: 123,
+			// 		type: 'video'
+			// 	},
+			// 	advertisement: {
+			// 		name: 'abc',
+			// 		url: 'https://s3-ap-southeast-1.amazonaws.com/vdyopublic/79_59263fc1b59d1/play.m3u8',
+			// 		// url: 'https://s3-ap-southeast-1.amazonaws.com/vdyopublic/6109_593164a006664/play.m3u8',
+			// 		id: 123,
+			// 		creator: 123,
+			// 		pre_roll: true,
+			// 		mid_roll: false,
+			// 		post_roll: false
+			// 	}
+			// }
+
+			// var player = new VdyoPlayer({
+			// 	swf: 'flowplayer.swf',
+			// 	swfHls: 'flowplayerhls.swf',
+			// 	debug: true,
+			// 	heatmap: {
+			// 		enabled: false
+			// 	},
+			// 	container: jQuery("#vdyoplayer"),
+			// 	popup: false,
+			// });
+
+			// player.setContent(data.content);
+			// player.setAdvertisement(data.advertisement);
+
+			// player.play();
+		}
+	</script>
+
+</body>
