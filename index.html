@@ -55,48 +55,7 @@
 
 
 	<script>
-		window.onload = function(){ console.log("yes");
-			flowplayer("#vdyoplayer", {
-			  // configure the VAST plugin for this player
-			  ima: {
-   				ads: [{
-				      // mandatory: schedule ad time
-				      // here: 3 seconds into the video
-				      time: 0,
-				      // request an advert with an adTag URL
 
-					adTag: 'https://raw.githubusercontent.com/InteractiveAdvertisingBureau/VAST_Samples/master/VAST%204.0%20Samples/Ready_to_serve_Media_Files_check-test.xml'
-				    },
-// 				    {
-// 				      // mandatory: schedule ad time
-// 				      // here: 3 seconds into the video
-// 				      time: -1,
-// 				      // request an advert with an adTag URL
-// 				      adTag: 'https://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614'
-// 				    }
-				]
-			  
-			  },
-			  // adverts in embedded player with iframe embedding
-			  embed: {
-			    iframe: "//flowplayer.org/standalone/vast/preroll-iframe.html"
-			  },
-			  clip:{
-			  	sources: [
-			      { type: "application/x-mpegurl",
-			        src:  "https://s3-ap-southeast-1.amazonaws.com/vdyopublic/6109_593164a006664/play.m3u8" }
-			    ]
-			  },
-			  splash: true,
-			  ratio: 9/16,
-			  
-			});
-      flowplayer(function (api) {
-  api.on("ima_ad_error", function (e, api, err) {
-    console.log("Ad error message: " + err.message);
-    console.log("Ad error code: " + err.code);
-  });
-});
 
 // var data = {
 			// 	content: {
