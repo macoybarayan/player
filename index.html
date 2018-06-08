@@ -62,72 +62,39 @@
 		window.onload = function(){ 
 			flowplayer("#vdyoplayer", {
 			  // configure the VAST plugin for this player
-				splash: true,
-    				ratio: 9/16,
-				customPlaylist: true,
+	
 				
-			playlist: [{
-      // interactive media ads 1st clip config
-      ima: {
-        ads: [{
-          time: 0,
-          adTag: "https://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614"
-        }, {
-          time: 10,
-          adTag: "https://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614"
-        }],
- 
-      },
- 
-      sources: [
-        { type: "application/x-mpegurl", src: "//edge.flowplayer.org/drive.m3u8" },
-        { type: "video/mp4", src: "//edge.flowplayer.org/drive.mp4" }
-      ]
- 
-    }, {
-      // interactive media ads 2nd clip config
-      ima: {
-        adRules: "https://macoybarayan.github.io/player/sokil/vast.xml"
-      },
- 
-      sources: [
-        { type: "application/x-mpegurl", src: "//edge.flowplayer.org/FlowplayerHTML5forWordPress.m3u8" },
-        { type: "video/mp4", src: "//edge.flowplayer.org/FlowplayerHTML5forWordPress.mp4" }
-      ]
-    }]	
-				
-				
-// 			  ima: {
-//    				ads: [{
+			  ima: {
+   				ads: [{
+				      // mandatory: schedule ad time
+				      // here: 3 seconds into the video
+				      time: 0,
+				      // request an advert with an adTag URL
+
+					adTag: 'https://macoybarayan.github.io/player/sokil/vast.xml'
+				    },
+// 				    {
 // 				      // mandatory: schedule ad time
 // 				      // here: 3 seconds into the video
-// 				      time: 0,
+// 				      time: -1,
 // 				      // request an advert with an adTag URL
-
-// 					adTag: 'https://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614'
-// 				    },
-// // 				    {
-// // 				      // mandatory: schedule ad time
-// // 				      // here: 3 seconds into the video
-// // 				      time: -1,
-// // 				      // request an advert with an adTag URL
-// // 				      adTag: 'https://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614'
-// // 				    }
-// 				]
+// 				      adTag: 'https://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614'
+// 				    }
+				]
 			  
-// 			  },
-// 			  // adverts in embedded player with iframe embedding
-// 			  embed: {
-// 			    iframe: "//flowplayer.org/standalone/vast/preroll-iframe.html"
-// 			  },
-// 			  clip:{
-// 			  	sources: [
-// 			      { type: "application/x-mpegurl",
-// 			        src:  "https://s3-ap-southeast-1.amazonaws.com/vdyopublic/6109_593164a006664/play.m3u8" }
-// 			    ]
-// 			  },
-// 			  splash: true,
-// 			  ratio: 9/16,
+			  },
+			  // adverts in embedded player with iframe embedding
+			  embed: {
+			    iframe: "//flowplayer.org/standalone/vast/preroll-iframe.html"
+			  },
+			  clip:{
+			  	sources: [
+			      { type: "application/x-mpegurl",
+			        src:  "https://s3-ap-southeast-1.amazonaws.com/vdyopublic/6109_593164a006664/play.m3u8" }
+			    ]
+			  },
+			  splash: true,
+			  ratio: 9/16,
 			  
 			});
       flowplayer(function (api) {
