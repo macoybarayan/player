@@ -60,37 +60,72 @@
 		window.onload = function(){ 
 			flowplayer("#vdyoplayer", {
 			  // configure the VAST plugin for this player
-			  ima: {
-   				ads: [{
-				      // mandatory: schedule ad time
-				      // here: 3 seconds into the video
-				      time: 0,
-				      // request an advert with an adTag URL
-
-					adTag: 'https://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614'
-				    },
-// 				    {
+				splash: true,
+    				ratio: 9/16,
+				customPlaylist: true,
+				
+			playlist: [{
+      // interactive media ads 1st clip config
+      ima: {
+        ads: [{
+          time: 0,
+          adTag: "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator="
+        }, {
+          time: 10,
+          adTag: "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/48717572/fp-overlay&ciu_szs&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=[referrer_url]&description_url=https%3A%2F%2Fflowplayer.org&correlator=[timestamp]"
+        }],
+ 
+      },
+ 
+      sources: [
+        { type: "application/x-mpegurl", src: "//edge.flowplayer.org/drive.m3u8" },
+        { type: "video/mp4", src: "//edge.flowplayer.org/drive.mp4" }
+      ]
+ 
+    }, {
+      // interactive media ads 2nd clip config
+      ima: {
+        adRules: "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpost&cmsid=496&vid=short_onecue&correlator="
+      },
+ 
+      sources: [
+        { type: "application/x-mpegurl", src: "//edge.flowplayer.org/FlowplayerHTML5forWordPress.m3u8" },
+        { type: "video/mp4", src: "//edge.flowplayer.org/FlowplayerHTML5forWordPress.mp4" }
+      ]
+    }]	
+				
+				
+// 			  ima: {
+//    				ads: [{
 // 				      // mandatory: schedule ad time
 // 				      // here: 3 seconds into the video
-// 				      time: -1,
+// 				      time: 0,
 // 				      // request an advert with an adTag URL
-// 				      adTag: 'https://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614'
-// 				    }
-				]
+
+// 					adTag: 'https://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614'
+// 				    },
+// // 				    {
+// // 				      // mandatory: schedule ad time
+// // 				      // here: 3 seconds into the video
+// // 				      time: -1,
+// // 				      // request an advert with an adTag URL
+// // 				      adTag: 'https://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614'
+// // 				    }
+// 				]
 			  
-			  },
-			  // adverts in embedded player with iframe embedding
-			  embed: {
-			    iframe: "//flowplayer.org/standalone/vast/preroll-iframe.html"
-			  },
-			  clip:{
-			  	sources: [
-			      { type: "application/x-mpegurl",
-			        src:  "https://s3-ap-southeast-1.amazonaws.com/vdyopublic/6109_593164a006664/play.m3u8" }
-			    ]
-			  },
-			  splash: true,
-			  ratio: 9/16,
+// 			  },
+// 			  // adverts in embedded player with iframe embedding
+// 			  embed: {
+// 			    iframe: "//flowplayer.org/standalone/vast/preroll-iframe.html"
+// 			  },
+// 			  clip:{
+// 			  	sources: [
+// 			      { type: "application/x-mpegurl",
+// 			        src:  "https://s3-ap-southeast-1.amazonaws.com/vdyopublic/6109_593164a006664/play.m3u8" }
+// 			    ]
+// 			  },
+// 			  splash: true,
+// 			  ratio: 9/16,
 			  
 			});
       flowplayer(function (api) {
