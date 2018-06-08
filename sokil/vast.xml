@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<VAST version="4.0">
+<VAST version="2.0">
     <Ad id="ad1">
         <InLine>
             <AdSystem>Ad Server Name</AdSystem>
@@ -8,7 +8,7 @@
             <Creatives>
                 <Creative>
                     <Linear>
-                        <Duration>00:02:08</Duration>
+                        <Duration>00:00:30</Duration>
                         <VideoClicks>
                             <ClickThrough><![CDATA[http://entertainmentserver.com/landing]]></ClickThrough>
                             <ClickTracking><![CDATA[http://ad.server.com/videoclicks/clicktracking]]></ClickTracking>
@@ -23,7 +23,7 @@
                                 <![CDATA[https://s3-ap-southeast-1.amazonaws.com/vdyopublic/ad.mp4]]>
                             </MediaFile>
                             <MediaFile delivery="progressive" type="video/mp4" height="200" width="200" bitrate="2500">
-                                <![CDATA[https://s3-ap-southeast-1.amazonaws.com/vdyopublic/ad.mp4]]>
+                                <![CDATA[https://s3-ap-southeast-1.amazonaws.com/vdyopublic/ads.mp4]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>
