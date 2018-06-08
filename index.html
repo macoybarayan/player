@@ -59,9 +59,23 @@
 			flowplayer("#vdyoplayer", {
 			  // configure the VAST plugin for this player
 			  ima: {
-   			adRules: "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/15018773/everything2&ciu_szs=300x250,468x60,728x90&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&cmsid=133&vid=10XWSh7W4so&ad_rule=1" 
-			   
-			  }
+   				ads: [{
+				      // mandatory: schedule ad time
+				      // here: 3 seconds into the video
+				      time: 3,
+				      // request an advert with an adTag URL
+
+					adTag: 'https://macoybarayan.github.io/player/sokil/vast.xml'
+				    },
+				    {
+				      // mandatory: schedule ad time
+				      // here: 3 seconds into the video
+				      time: -1,
+				      // request an advert with an adTag URL
+				      adTag: 'https://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614'
+				    }
+				]
+			  
 			  },
 			  // adverts in embedded player with iframe embedding
 			  embed: {
