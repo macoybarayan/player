@@ -23,7 +23,7 @@
                                 <![CDATA[https://s3-ap-southeast-1.amazonaws.com/vdyopublic/ad.mp4]]>
                             </MediaFile>
                             <MediaFile delivery="progressive" type="video/mp4" height="200" width="200" bitrate="2500">
-                                <![CDATA[https://s3-ap-southeast-1.amazonaws.com/vdyopublic/ads.mp4]]>
+                                <![CDATA[https://s3-ap-southeast-1.amazonaws.com/vdyopublic/ad.mp4]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>
