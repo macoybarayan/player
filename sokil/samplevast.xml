@@ -37,7 +37,7 @@
 
 </VideoClicks>
 <MediaFiles>
-<MediaFile  type="application/x-mpegurl" width="1024" height="576" bitrate="706" delivery="progressive"><![CDATA[https://s3-ap-southeast-1.amazonaws.com/vdyopublic/79_59263fc1b59d1/play.m3u8]]></MediaFile>
+<MediaFile  type="video/mp4" width="1024" height="576" bitrate="706" delivery="progressive"><![CDATA[http://adbutler-fermion.com/libid422577/TVS-DiBELLA-GreatCoffee-30+-+converted+with+Clipchamp.mp4]]></MediaFile>
 </MediaFiles>
 </Linear>
 </Creative>
