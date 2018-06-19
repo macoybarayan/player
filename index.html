@@ -57,7 +57,7 @@
 
 	<script>
 		window.onload = function(){ 
-			flowplayer("#vdyoplayer", {
+			var player = flowplayer("#vdyoplayer", {
 			  // configure the VAST plugin for this player
 	
 				
@@ -93,7 +93,7 @@
 			  splash: true,
 			  ratio: 9/16,
 			  
-			});
+			}); console.log(player);
       flowplayer(function (api) {
   api.on("ima_ad_error", function (e, api, err) {
     console.log("Ad error message: " + err.message);
