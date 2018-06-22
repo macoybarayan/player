@@ -20,7 +20,7 @@
                         </TrackingEvents>
                         <MediaFiles>
                             <MediaFile delivery="progressive" type="video/mp4" height="100" width="100">
-                                <![CDATA[https://s3-ap-southeast-1.amazonaws.com/vdyoencoded/ads/47/145_5b2214b0b02ba.mp4?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJ7ASAC77ZSFADPRQ%2F20180622%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20180622T015614Z&X-Amz-SignedHeaders=host&X-Amz-Expires=18000&X-Amz-Signature=8cd2894a81fe82c5522f0b328e3f52c1756d31b5c459348815dccfe8f0578ae5]]>
+                                <![CDATA[http://adbutler-fermion.com/libid422577/TVS-DiBELLA-GreatCoffee-30+-+converted+with+Clipchamp.mp4]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>
@@ -39,7 +39,7 @@
                         </TrackingEvents>
                         <MediaFiles>
                             <MediaFile delivery="progressive" type="video/mp4" height="100" width="100">
-                                <![CDATA[https://s3-ap-southeast-1.amazonaws.com/vdyoencoded/ads/47/145_5b2214b0b02ba.mp4?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJ7ASAC77ZSFADPRQ%2F20180622%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20180622T015614Z&X-Amz-SignedHeaders=host&X-Amz-Expires=18000&X-Amz-Signature=8cd2894a81fe82c5522f0b328e3f52c1756d31b5c459348815dccfe8f0578ae5]]>
+                                <![CDATA[http://adbutler-fermion.com/libid422577/TVS-DiBELLA-GreatCoffee-30+-+converted+with+Clipchamp.mp4]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>
