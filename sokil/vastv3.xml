@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VAST version="3.0">
     <Ad id="ad1" sequence="1">
-        <InLine>
+        <Wrapper>
             <AdSystem>Ad Server Name</AdSystem>
             <AdTitle><![CDATA[Ad Title]]></AdTitle>
             <Impression><![CDATA[http://ad.server.com/impression]]></Impression>
@@ -26,10 +26,10 @@
                     </Linear>
                 </Creative>
             </Creatives>
-        </InLine>
+        </Wrapper>
     </Ad>
     <Ad id="ad2" sequence="2">
-        <InLine>
+        <Wrapper>
             <AdSystem>Ad Server Name</AdSystem>
             <AdTitle><![CDATA[Ad Title]]></AdTitle>
             <Impression><![CDATA[http://ad.server.com/impression]]></Impression>
@@ -54,6 +54,6 @@
                     </Linear>
                 </Creative>
             </Creatives>
-        </InLine>
+        </Wrapper>
     </Ad>
 </VAST>
