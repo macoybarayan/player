@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VAST version="3.0">
-    <Ad id="ad1">
+    <Ad id="ad1" sequence="1">
         <InLine>
             <AdSystem>Ad Server Name</AdSystem>
             <AdTitle><![CDATA[Ad Title]]></AdTitle>
             <Impression><![CDATA[http://ad.server.com/impression]]></Impression>
             <Creatives>
-                <Creative sequence="1">
+                <Creative>
                     <Linear>
                         <Duration>00:02:08</Duration>
                         <VideoClicks>
@@ -25,7 +25,16 @@
                         </MediaFiles>
                     </Linear>
                 </Creative>
-              <Creative sequence="2">
+            </Creatives>
+        </InLine>
+    </Ad>
+    <Ad id="ad2" sequence="2">
+        <InLine>
+            <AdSystem>Ad Server Name</AdSystem>
+            <AdTitle><![CDATA[Ad Title]]></AdTitle>
+            <Impression><![CDATA[http://ad.server.com/impression]]></Impression>
+            <Creatives>
+              <Creative>
                     <Linear>
                         <Duration>00:02:08</Duration>
                         <VideoClicks>
