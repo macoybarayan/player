@@ -9,15 +9,6 @@
                 <Creative>
                     <Linear>
                         <Duration>00:02:08</Duration>
-                        <VideoClicks>
-                            <ClickThrough><![CDATA[http://entertainmentserver.com/landing]]></ClickThrough>
-                            <ClickTracking><![CDATA[http://ad.server.com/videoclicks/clicktracking]]></ClickTracking>
-                            <CustomClick><![CDATA[http://ad.server.com/videoclicks/customclick]]></CustomClick>
-                        </VideoClicks>
-                        <TrackingEvents>
-                            <Tracking event="start"><![CDATA[http://ad.server.com/trackingevent/start]]></Tracking>
-                            <Tracking event="pause"><![CDATA[http://ad.server.com/trackingevent/stop]]></Tracking>
-                        </TrackingEvents>
                         <MediaFiles>
                             <MediaFile delivery="progressive" type="video/mp4" height="100" width="100">
                                 <![CDATA[http://adbutler-fermion.com/libid422577/TVS-DiBELLA-GreatCoffee-30+-+converted+with+Clipchamp.mp4]]>
@@ -37,15 +28,6 @@
                 <Creative>
                     <Linear>
                         <Duration>00:02:08</Duration>
-                        <VideoClicks>
-                            <ClickThrough><![CDATA[http://entertainmentserver.com/landing]]></ClickThrough>
-                            <ClickTracking><![CDATA[http://ad.server.com/videoclicks/clicktracking]]></ClickTracking>
-                            <CustomClick><![CDATA[http://ad.server.com/videoclicks/customclick]]></CustomClick>
-                        </VideoClicks>
-                        <TrackingEvents>
-                            <Tracking event="start"><![CDATA[http://ad.server.com/trackingevent/start]]></Tracking>
-                            <Tracking event="pause"><![CDATA[http://ad.server.com/trackingevent/stop]]></Tracking>
-                        </TrackingEvents>
                         <MediaFiles>
                             <MediaFile delivery="progressive" type="video/mp4" height="100" width="100">
                                 <![CDATA[http://adbutler-fermion.com/libid422577/TVS-DiBELLA-GreatCoffee-30+-+converted+with+Clipchamp.mp4]]>
