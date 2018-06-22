@@ -1,19 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VAST version="3.0">
     <Ad id="ad1" sequence="1">
-       <Wrapper followAdditionalWrappers="true" allowMultipleAds="true" fallbackOnNoAd="true">
-            <AdSystem/>
-            <VASTAdTagURI>
-                <![CDATA[http://adbutler-fermion.com/libid422577/TVS-DiBELLA-GreatCoffee-30+-+converted+with+Clipchamp.mp4]]>
-            </VASTAdTagURI>
-        </Wrapper>            
+        <InLine>
+            <AdSystem>Ad Server Name</AdSystem>
+            <AdTitle><![CDATA[Ad Title]]></AdTitle>
+            <Impression><![CDATA[http://ad.server.com/impression]]></Impression>
+            <Creatives>
+                <Creative>
+                    <Linear>
+                        <Duration>00:02:08</Duration>
+                        <VideoClicks>
+                            <ClickThrough><![CDATA[http://entertainmentserver.com/landing]]></ClickThrough>
+                            <ClickTracking><![CDATA[http://ad.server.com/videoclicks/clicktracking]]></ClickTracking>
+                            <CustomClick><![CDATA[http://ad.server.com/videoclicks/customclick]]></CustomClick>
+                        </VideoClicks>
+                        <TrackingEvents>
+                            <Tracking event="start"><![CDATA[http://ad.server.com/trackingevent/start]]></Tracking>
+                            <Tracking event="pause"><![CDATA[http://ad.server.com/trackingevent/stop]]></Tracking>
+                        </TrackingEvents>
+                        <MediaFiles>
+                            <MediaFile delivery="progressive" type="video/mp4" height="100" width="100">
+                                <![CDATA[http://adbutler-fermion.com/libid422577/TVS-DiBELLA-GreatCoffee-30+-+converted+with+Clipchamp.mp4]]>
+                            </MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+        </InLine>
     </Ad>
     <Ad id="ad2" sequence="2">
-        <Wrapper followAdditionalWrappers="true" allowMultipleAds="true" fallbackOnNoAd="true">
-            <AdSystem/>
-            <VASTAdTagURI>
-                <![CDATA[http://adbutler-fermion.com/libid422577/TVS-DiBELLA-GreatCoffee-30+-+converted+with+Clipchamp.mp4]]>
-            </VASTAdTagURI>
-        </Wrapper>   
+        <InLine>
+            <AdSystem>Ad Server Name</AdSystem>
+            <AdTitle><![CDATA[Ad Title]]></AdTitle>
+            <Impression><![CDATA[http://ad.server.com/impression]]></Impression>
+            <Creatives>
+                <Creative>
+                    <Linear>
+                        <Duration>00:02:08</Duration>
+                        <VideoClicks>
+                            <ClickThrough><![CDATA[http://entertainmentserver.com/landing]]></ClickThrough>
+                            <ClickTracking><![CDATA[http://ad.server.com/videoclicks/clicktracking]]></ClickTracking>
+                            <CustomClick><![CDATA[http://ad.server.com/videoclicks/customclick]]></CustomClick>
+                        </VideoClicks>
+                        <TrackingEvents>
+                            <Tracking event="start"><![CDATA[http://ad.server.com/trackingevent/start]]></Tracking>
+                            <Tracking event="pause"><![CDATA[http://ad.server.com/trackingevent/stop]]></Tracking>
+                        </TrackingEvents>
+                        <MediaFiles>
+                            <MediaFile delivery="progressive" type="video/mp4" height="100" width="100">
+                                <![CDATA[http://adbutler-fermion.com/libid422577/TVS-DiBELLA-GreatCoffee-30+-+converted+with+Clipchamp.mp4]]>
+                            </MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+        </InLine>
     </Ad>
 </VAST>
