@@ -8,7 +8,7 @@
             <Creatives>
                 <Creative>
                     <Linear skipoffset="00:00:05">
-                        <Duration>00:02:08</Duration>
+                        <Duration>00:00:30</Duration>
                         <MediaFiles>
                             <MediaFile delivery="progressive" type="video/mp4" height="100" width="100">
                                 <![CDATA[http://adbutler-fermion.com/libid422577/TVS-DiBELLA-GreatCoffee-30+-+converted+with+Clipchamp.mp4]]>
@@ -27,10 +27,10 @@
             <Creatives>
                 <Creative>
                     <Linear skipoffset="00:00:05">
-                        <Duration>00:02:08</Duration>
+                        <Duration>00:00:30</Duration>
                         <MediaFiles>
                             <MediaFile delivery="progressive" type="video/mp4" height="100" width="100">
-                                <![CDATA[https://s3-ap-southeast-1.amazonaws.com/vdyopublic/ad.mp4]]>
+                                <![CDATA[http://adbutler-fermion.com/libid422577/TVS-DiBELLA-GreatCoffee-30+-+converted+with+Clipchamp.mp4]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>
