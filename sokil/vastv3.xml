@@ -7,7 +7,7 @@
             <Impression><![CDATA[http://ad.server.com/impression]]></Impression>
             <Creatives>
                 <Creative>
-                    <Linear skipoffset="00:00:05”>
+                    <Linear skipoffset="00:00:05">
                         <Duration>00:02:08</Duration>
                         <MediaFiles>
                             <MediaFile delivery="progressive" type="video/mp4" height="100" width="100">
@@ -26,7 +26,7 @@
             <Impression><![CDATA[http://ad.server.com/impression]]></Impression>
             <Creatives>
                 <Creative>
-                    <Linear skipoffset="00:00:05”>
+                    <Linear skipoffset="00:00:05">
                         <Duration>00:02:08</Duration>
                         <MediaFiles>
                             <MediaFile delivery="progressive" type="video/mp4" height="100" width="100">
