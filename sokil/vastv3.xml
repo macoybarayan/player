@@ -8,7 +8,7 @@
             <Creatives>
                 <Creative>
                     <Linear>
-                        <Duration>00:02:08</Duration>
+                        <Duration>00:00:30</Duration>
                         <VideoClicks>
                             <ClickThrough><![CDATA[http://entertainmentserver.com/landing]]></ClickThrough>
                             <ClickTracking><![CDATA[http://ad.server.com/videoclicks/clicktracking]]></ClickTracking>
@@ -36,7 +36,7 @@
             <Creatives>
               <Creative>
                     <Linear>
-                        <Duration>00:02:08</Duration>
+                        <Duration>00:00:30</Duration>
                         <VideoClicks>
                             <ClickThrough><![CDATA[http://entertainmentserver.com/landing]]></ClickThrough>
                             <ClickTracking><![CDATA[http://ad.server.com/videoclicks/clicktracking]]></ClickTracking>
