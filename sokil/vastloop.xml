@@ -7,4 +7,11 @@
           <Impression>http://ad.server.com/impression</Impression>        
         </Wrapper>
     </Ad>
+    <Ad id="ad2">
+        <Wrapper followAdditonalWrappers="false" allowMultipleAds="true" fallbackOnNoAd="false">
+          <VASTAdTagURI><![CDATA[https://macoybarayan.github.io/player/sokil/vastloop.xml]]></VASTAdTagURI>
+          <AdSystem>VDYO Pty Ltd</AdSystem>
+          <Impression>http://ad.server.com/impression</Impression>        
+        </Wrapper>
+    </Ad>
 </VAST>
