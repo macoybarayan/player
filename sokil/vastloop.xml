@@ -2,7 +2,7 @@
 <VAST version="3.0">
     <Ad id="ad1">
         <Wrapper>
-          <VASTAdTagURI>https://fan.vdyo.test/hls/vast/4/pod</VASTAdTagURI>
+          <VASTAdTagURI>https://macoybarayan.github.io/player/sokil/vastv3.xml</VASTAdTagURI>
           <AdSystem>VDYO Pty Ltd</AdSystem>
           <Impression>http://ad.server.com/impression</Impression>
         
