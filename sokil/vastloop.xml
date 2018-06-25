@@ -9,7 +9,7 @@
     </Ad>
     <Ad id="ad2">
         <Wrapper>
-          <VASTAdTagURI><![CDATA[https://fan.vdyodev.com/hls/vast-loop-xml/1]]></VASTAdTagURI>
+          <VASTAdTagURI><![CDATA[https://macoybarayan.github.io/player/sokil/vastloop.xml]]></VASTAdTagURI>
           <AdSystem>VDYO Pty Ltd</AdSystem>
           <Impression>http://ad.server.com/impression</Impression>        
         </Wrapper>
