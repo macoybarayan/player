@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VAST version="3.0">
     <Ad id="ad1">
-        <Wrapper>
+        <Wrapper followAdditonalWrappers="false" allowMultipleAds="true" fallbackOnNoAd="true">
           <VASTAdTagURI><![CDATA[https://fan.vdyodev.com/hls/vast/151/ads/1]]></VASTAdTagURI>
           <AdSystem>VDYO Pty Ltd</AdSystem>
           <Impression>http://ad.server.com/impression</Impression>        
         </Wrapper>
     </Ad>
     <Ad id="ad2">
-        <Wrapper>
+        <Wrapper followAdditonalWrappers="false" allowMultipleAds="true" fallbackOnNoAd="true">
           <VASTAdTagURI><![CDATA[https://macoybarayan.github.io/player/sokil/vastloop.xml]]></VASTAdTagURI>
           <AdSystem>VDYO Pty Ltd</AdSystem>
           <Impression>http://ad.server.com/impression</Impression>        
