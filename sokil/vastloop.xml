@@ -2,7 +2,7 @@
 <VAST version="3.0">
     <Ad id="ad1">
         <Wrapper>
-          <VASTAdTagURI><![CDATA[https://fan.vdyodev.com/hls/vast/1/pod]]></VASTAdTagURI>
+          <VASTAdTagURI><![CDATA[https://macoybarayan.github.io/player/sokil/vastv3.xml]]></VASTAdTagURI>
           <AdSystem>VDYO Pty Ltd</AdSystem>
           <Impression>http://ad.server.com/impression</Impression>        
         </Wrapper>
