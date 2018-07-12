@@ -2,6 +2,7 @@ var VdyoPlayer = easejs.Class('Stack',
     {
         'private api': null,
         'private video_container': null,
+        'private video_container_id': null,
         'private advertisement_container': null,
         'private tracker': null,
         'private timer': null,
@@ -9,6 +10,7 @@ var VdyoPlayer = easejs.Class('Stack',
         'public isPlaying': false,
         'private _trackerImage': null,
         'private _hasAdBlocker': false,
+        'private _videos': [],
         'private _config': {
             debug: false,
             video: {},
@@ -26,14 +28,15 @@ var VdyoPlayer = easejs.Class('Stack',
             heatmap: {
                 enabled: true,
                 uid: null,
-                delay: 1000,
+                delay: 10000,
                 project_id: null,
                 tenant_id: 0,
-                write_api_key: null
+                write_api_key: null,
+                on_site: true
             },
             popup: true,
             container: null,
-            promotingUserToContinue: false
+            promotingUserToContinue: false,
         },
 
         __construct: function (config) {
@@ -46,38 +49,57 @@ var VdyoPlayer = easejs.Class('Stack',
                     this._log('adblocker is enabled');
                 }.bind(this));
             }
+
+            this.video_container_id = 'vdyo_' + String.fromCharCode(65 + Math.floor(Math.random() * 26)) + Date.now();
         },
 
         'public setContent': function (data) {
-            console.log(data);
             this._config.content = data;
 
             //this._config.content = {url: url, id: content_id, creator: creator, type: type};
             this._config.content.parent = null;
+            this.removeAdvertisements();
+        },
+
+        'public setDelay': function (delay) {
+          this._config.heatmap.delay = delay;
         },
 
         'public setParent': function (type, id) {
-            this._config.content.parent = {type: type, id: id};
+            this._config.content.parent = { type: type, id: id };
         },
 
         'public addAdvertisement': function (data, type) {
-            this._config.advertisements[type] = data;
+            this._config.advertisements[ type ] = data;
         },
 
-        'public setAdvertisement': function (advertisementData) {
-            this._config.advertisements = {};
+        'public setAdvertisements': function (advertisementData) {
+            var self = this;
+            self._config.advertisements = [];
+            //advertisementData = Array.isArray(advertisementData) ? advertisementData : [advertisementData];
+            var details = advertisementData.vast_xml;
 
-            if (advertisementData.pre_roll) {
-                this.addAdvertisement(advertisementData, 'pre');
-            }
+            details.forEach(function(data, index) {
 
-            if (advertisementData.mid_roll) {
-                this.addAdvertisement(advertisementData, 'mid');
-            }
+                if (data.position == "pre_roll") {
+                  self._config.advertisements.push({
+                    time: 0,
+                    adTag: data.xml
+                  });
 
-            if (advertisementData.post_roll) {
-                this.addAdvertisement(advertisementData, 'post');
-            }
+                } else if(data.position == "mid_roll") {
+                  self._config.advertisements.push({
+                    time: Math.round((self._config.content.length / 2) * 0.001), //convert from ms to sec
+                    adTag: data.xml
+                  });
+
+                } else if(data.position == "post_roll") {
+                  self._config.advertisements.push({
+                    time: -1,
+                    adTag: data.xml
+                  });
+                }
+            })
         },
 
         'public removeAdvertisements': function () {
@@ -86,36 +108,33 @@ var VdyoPlayer = easejs.Class('Stack',
 
         'public play': function () {
             var self = this;
+
             if (!self._config.content.url) {
                 throw new Error('No video is set.');
             }
 
             var vdyoplayers =
-                '   <div class="vdyoplayer mainPlayer">' +
-                // '       <div class="fp-context-menu">' +
-                // '           <ul><li>&copy; VDYO Pty Ltd</li></ul>' +
-                // '       </div>' +
-                // '           <div class="popup-wrapper" style="">' +
-                // '               <div class="fp-waiting">Loading</div>' +
-                // '               <div class="valign-center">' +
-                // '                   <div class="popup">' +
-                // '                       <div class="popup-body">' +
-                // '                           <h3>Keep Viewing.</h3>' +
-                // '                           <p>Pick up from where you last left off.</p>' +
-                // '                       </div>' +
-                // '                       <div class="popup-footer">' +
-                // '                           <a href="#" class="btn-success continue">Resume</a>' +
-                // '                           <a href="#" class="btn-cancel startover">Start Over</a>' +
-                // '                       </div>' +
-                // '                   </div>' +
-                // '               </div>' +
-                // '       </div>' +
-                '   </div>' 
-                ;
-                //'   <div class="vdyoplayer adsPlayer" style="">' +
-                // '       <div class="fp-context-menu"><ul><li>&copy; VDYO Pty Ltd</li></ul></div>' +
-                //'       <div class="skip-btn"></div>' +
-                //'   </div>';
+                '   <div class="vdyoplayer ' + self.video_container_id + '">' +
+                '       <div class="fp-context-menu">' +
+                '           <ul><li>&copy; VDYO Pty Ltd</li></ul>' +
+                '       </div>' +
+                '           <div class="popup-wrapper" style="display: none">' +
+                '               <div class="fp-waiting">Loading</div>' +
+                '               <div class="valign-center">' +
+                '                   <div class="popup">' +
+                '                       <div class="popup-body">' +
+                '                           <h3>Keep Viewing.</h3>' +
+                '                           <p>Pick up from where you last left off.</p>' +
+                '                       </div>' +
+                '                       <div class="popup-footer">' +
+                '                           <a href="#" class="btn-success continue">Resume</a>' +
+                '                           <a href="#" class="btn-cancel startover">Start Over</a>' +
+                '                       </div>' +
+                '                   </div>' +
+                '               </div>' +
+                '       </div>' +
+                '       <div class="skip-btn"></div>' +
+                '   </div>';
 
             if (!self._config.container) {
                 $.magnificPopup.open({
@@ -130,7 +149,15 @@ var VdyoPlayer = easejs.Class('Stack',
                             self._setupPlayer(this.wrap);
                         },
                         beforeClose: function () {
-                            self.player.shutdown();
+                            $('.player-container').html('');
+
+                            if(self.tracker != null){
+                              var data = {
+                                finished_at: self.player.video.time
+                              };   
+                              self.tracker.track(self.player.video.time, data);
+                            }
+                            
                         }
                     }
                 });
@@ -143,10 +170,20 @@ var VdyoPlayer = easejs.Class('Stack',
         'private _setupPlayer': function (container) {
             var self = this;
             setTimeout(function () {
-                self.video_container = container.find('.mainPlayer');
-                //self.advertisement_container = container.find('.adsPlayer');
+                self.video_container = container.find('.' + self.video_container_id);
+                self._videos = [];
 
-                self.player = self._buildPlayer(self.video_container, self._config.content.url, self._config.logo);
+                // main content
+                self._videos.push({
+                    content_type: 'main',
+                    position: 'main',
+                    sources: [ {
+                        type: "application/x-mpegurl",
+                        src: self._config.content.url
+                    }]
+                });
+
+                self.player = self._buildPlayer(self.video_container, self._config.logo);
                 self._setupHeatmap(self.player);
                 self._setupPlayerEvent(self.player);
             }, 100);
@@ -167,46 +204,95 @@ var VdyoPlayer = easejs.Class('Stack',
         'private _ping': function () {
             var self = this;
 
-            // var pingData = btoa(encodeURIComponent(JSON.stringify({
-            //         video: self._config.content.id,
-            //         createor: self._config.content.creator,
-            //         tenant: self._config.heatmap.tenant_id,
-            //         type: self._config.content.type,
-            //         parent: self._config.content.parent,
-            //         time: (new Date()).toISOString(),
-            //         uid: self._config.heatmap.enabled ? self.tracker.config.uid : self._config.heatmap.uid,
-            //         playing: self.player.playing,
-            //         pTime: self.player.video.time ? self.player.video.time : 0,
-            //         finished: (self.player.video.duration - self.player.video.time) < 10
-            //     })
-            //     .replace(/%([0-9A-F]{2})/g, function (match, p1) {
-            //         return String.fromCharCode('0x' + p1);
-            //     })));
+            var pingData = btoa(encodeURIComponent(JSON.stringify({
+                video: self._config.content.id,
+                createor: self._config.content.creator,
+                tenant: self._config.heatmap.tenant_id,
+                type: self._config.content.type,
+                parent: self._config.content.parent,
+                time: (new Date()).toISOString(),
+                uid: self._config.heatmap.enabled ? self.tracker.config.uid : self._config.heatmap.uid,
+                playing: self.player.playing,
+                pTime: self.player.video.time ? self.player.video.time : 0,
+                finished: (self.player.video.duration - self.player.video.time) < 10
+            })
+                .replace(/%([0-9A-F]{2})/g, function (match, p1) {
+                    return String.fromCharCode('0x' + p1);
+                })));
 
-            // this._trackerImage = new Image();
-            // this._trackerImage.src = '/hls/ping?v=' + pingData;
-            // this._trackerImage = null;
+            this._trackerImage = new Image();
+            this._trackerImage.src = '/hls/ping?v=' + pingData;
+            this._trackerImage = null;
         },
 
         'private _setupHeatmap': function (player) {
-            var self = this;
-            self.timer = new Timer(self._config.heatmap.delay, self._track.bind(self));
-
-            // self.advertisementAnalytics = new AdvertisementAnalytics({
-            //     project_id: self._config.heatmap.project_id,
-            //     write_api_key: self._config.heatmap.write_api_key,
-            //     uid: self._config.heatmap.uid,
-            //     tenant_id: self._config.heatmap.tenant_id
-            // });
-
-
-
+            var self = this; 
+            self.timer = new Timer(self._config.heatmap.delay, self._track.bind(self)); 
+     
             if (self._config.heatmap.enabled) {
-
-                self.tracker = new HeatmapTracker(self._config.heatmap);
-                self.tracker.setContent(self._config.content);
-                self.tracker.setContentParent(self._config.content.parent);
+              
+              self.advertisementAnalytics = new AdvertisementAnalytics({
+                project_id: self._config.heatmap.project_id,
+                write_api_key: self._config.heatmap.write_api_key,
+                uid: self._config.heatmap.uid,
+                tenant_id: self._config.heatmap.tenant_id
+              });
+ 
+              self.embedAnalytics = new EmbedVideoAnalytics(self._config.heatmap);
+              self.embedAnalytics.setContent(self._config.content);
+              self.embedAnalytics.setContentParent(self._config.content.parent);
+          
+              self.tracker = new HeatmapTracker(self._config.heatmap);
+              self.tracker.setContent(self._config.content);
+              self.tracker.setContentParent(self._config.content.parent);
+         
             }
+        },
+
+        'private _getBenchmark': function (currentTime) {
+          var self = this,
+            video_duration = self.player.video.duration,
+            zero_percent = 0,
+            twentyfive_percent = Math.round(0.25*video_duration),
+            fifty_percent = Math.round(0.50*video_duration),
+            seventyfive_percent = Math.round(0.75*video_duration),
+            hundred_percent = video_duration - 10,
+            data = {};
+ 
+          if(Math.round(currentTime) >= zero_percent && Math.round(currentTime) < twentyfive_percent){
+            data = {
+              event_type: 'view_benchmark',
+              benchmark: '0_percent',
+              video_played: currentTime
+            };
+          } else if(Math.round(currentTime) >= twentyfive_percent && Math.round(currentTime) < fifty_percent){ 
+            data = {
+              event_type: 'view_benchmark',
+              benchmark: '25_percent',
+              video_played: currentTime
+            };
+          } else if(Math.round(currentTime) >= fifty_percent && Math.round(currentTime) < seventyfive_percent){
+            data = {
+              event_type: 'view_benchmark',
+              benchmark: '50_percent',
+              video_played: currentTime
+            };
+          } else if(Math.round(currentTime) >= seventyfive_percent && Math.round(currentTime) < hundred_percent){
+            data = {
+              event_type: 'view_benchmark',
+              benchmark: '75_percent',
+              video_played: currentTime
+            };
+          } else if(Math.round(currentTime) >= hundred_percent){
+            data = {
+              event_type: 'view_benchmark',
+              benchmark: '100_percent',
+              video_played: currentTime
+            };
+          }
+
+          return data;
+
         },
 
         'private _track': function (isTriggeredByTimer, trackPaused) {
@@ -215,12 +301,23 @@ var VdyoPlayer = easejs.Class('Stack',
             if (self._config.heatmap.enabled && self.player.video.duration) {
                 if (self.player.playing === false && trackPaused !== true) {
                     return self.timer.stop();
-                } else if (isTriggeredByTimer && ((self.player.video.duration - self.player.video.time) * 1000 <= self._config.heatmap.delay + 100)) {
+                } else if (isTriggeredByTimer && ((self.player.video.duration - self.player.video.time) * 1000 <= self._config.heatmap.delay)) {
                     return self.timer.stop();
                 }
 
-                if (self.player.video.time > 0) {
-                    self.tracker.track(self.player.video.time);
+                if (self.player.video.time >= 0) {
+                  var currentTime = self.player.video.time,
+                      benchmark = self._getBenchmark(currentTime);
+                                    
+
+                  if($.isEmptyObject(benchmark) === false){ 
+                     //for video embedded to other site
+                    if (self._config.heatmap.on_site === false) {
+                      self.embedAnalytics.track(currentTime, benchmark);
+                    } else {                      
+                      self.tracker.track(currentTime, benchmark); console.log(benchmark);
+                    }
+                  }                  
                 }
             }
         },
@@ -236,65 +333,64 @@ var VdyoPlayer = easejs.Class('Stack',
                 if ($.magnificPopup.instance.isOpen) {
                     $.magnificPopup.instance.close();
                 }
-            } catch (e) {}
+            } catch (e) { }
         },
 
         'private _setupPlayerEvent': function (api) {
-            var self = this;
-            // var loading = self.video_container.find('.fp-waiting');
+            var self = this;            
 
-            if (api.engine && api.engine.engineName == "hlsjs") {
-                // api.engine.hlsjs.on('hlsManifestLoaded', self._ping.bind(this));
-                // api.engine.hlsjs.on('hlsFragChanged', self._ping.bind(this));
-                api.engine.hlsjs.config.xhrSetup = function (xhr, url) {
-                    xhr.setRequestHeader('uuid', self._config.heatmap.enabled ? self.tracker.config.uid : self._config.heatmap.uid);
-                };
-            } else {
-                // self._ping();
+            // var loading = self.video_container.find('.fp-waiting');
+            var skip_button = self.video_container.find('.skip-btn');
+
+            if (api.video.content_type === 'main') {
+                if (api.engine && api.engine.engineName == "hlsjs") {
+                    api.engine.hlsjs.on('hlsManifestLoaded', self._ping.bind(this));
+                    api.engine.hlsjs.on('hlsFragChanged', self._ping.bind(this));
+                    api.engine.hlsjs.config.xhrSetup = function (xhr, url) {
+                        xhr.setRequestHeader('uuid', self._config.heatmap.enabled ? self.tracker.config.uid : self._config.heatmap.uid);
+                    };
+                } else {
+                    self._ping();
+                }
             }
 
             api
                 .on("ready", function (arg, api, video) {
                     self._log(api.engine.engineName + " engine playing " + video.type);
 
+                    if (api.video.content_type === 'main') {
+                        
+                        self._promptUserToContinue(self.video_container, api, function () {
+                            // do nothing
+                        });
 
-                    if (self._config.advertisements['pre']) {
-                        self._config.advertisementsTime[0] = 'pre';
-                    }
-
-                    if (self._config.advertisements['mid']) {
-                        self._config.advertisementsTime[Math.round(api.video.duration / 2)] = 'mid';
-                    }
-
-                    if (self._config.advertisements['post']) {
-                        self._config.advertisementsTime[Math.round((api.video.duration / 2 + api.video.duration / 2.2))] = 'post';
-                    }
-
-
-                    self._promptUserToContinue(self.video_container, api, function () {
-                        //self._playAdvertisement(api, 0)
-                    });
-
-
-                    if (self._config.heatmap.enabled) {
-                        self.tracker.setStartOffset(0);
-                        self.tracker.setVideoDuration(video.duration);
-                        self._setBrowserEvent(true);
+                        if (self._config.heatmap.enabled) {
+                            self.tracker.setStartOffset(0);
+                            self.tracker.setVideoDuration(video.duration);
+                            self._setBrowserEvent(true);
+                        }
                     }
                 })
                 .on("resume", function () {
                     // Resume headmap timer
-                    self.timer.start();
-                    self._startPing();
-                    self.isPlaying = true;
+                    console.log('RESUME', api.video.content_type);
+                    if (api.video.content_type === 'main') {
+                        self.timer.start();
+                        self._startPing();
+                        self.isPlaying = true;
+                        self.video_container.find('.fp-controls').css('bottom', '0');
+                    } else {
+                        self.video_container.find('.fp-controls').css('bottom', '-999em');
+                    }
                     // loading.hide();
                 })
                 .on("pause", function () {
                     // Pause headmap timer and update
-
-                    self.timer.stop();
-                    self._track(null, true);
-                    self.isPlaying = false;
+                    if (api.video.content_type === 'main') {
+                        self.timer.stop();
+                        self._track(null, true);
+                        self.isPlaying = false;
+                    }
                 })
                 .on("seek", function (arg, api, time) {
                     // Pause headmap timer and update
@@ -302,15 +398,38 @@ var VdyoPlayer = easejs.Class('Stack',
                         self.timer.start();
                     }
 
-                    if (self._config.heatmap.enabled) {
-                        self.tracker.setStartOffset(time);
+                    if (api.video.content_type === 'main') {
+                        if (self._config.heatmap.enabled) {
+                            self.tracker.setStartOffset(time);
+                        }
                     }
                 })
                 .on("progress", function (e, api) {
-                    // loading.hide();
-                    if (Math.round(arguments[2]) > 2) {
+                    try {
+                        // show skip button
+                        if (api.video.position === 'pre' && api.video.content_type === 'advertisement' && skip_button.is(':visible') === false) {
+                            if (Math.round(api.video.duration / 2.5) < arguments[ 2 ]) {
+                                skip_button
+                                    .css('display', 'inline-block')
+                                    .css('padding', '0 60px')
+                                    .on('click', function (e) {
+                                        if (!api) {
+                                            return;
+                                        }
 
-                        //self._playAdvertisement(api, Math.round(arguments[2]));
+                                        e.preventDefault();
+                                        
+                                        api.play(1);
+                                        skip_button.off('click');
+                                    });
+                            }
+                        } else if (api.video.position !== 'pre' && api.video.content_type !== 'advertisement') {
+                            skip_button
+                                .css('display', 'none')
+                                .css('padding', '0')
+                                .off('click');
+                        }
+                    } catch (error) {
                     }
                 })
                 .on("buffer", function () {
@@ -318,51 +437,62 @@ var VdyoPlayer = easejs.Class('Stack',
                 })
 
                 .on("finish", function () {
-                    // Pause headmap timer and update
+                    console.log('FINISH', api.video.position);
+                    // Pause headmap timer and update                  
+                    
+                 
                     self.timer.stop();
                     self.isPlaying = false;
 
-                    for (var advertisementTime in self._config.advertisementsTime) {
-                        delete self._config.advertisementsTime[advertisementTime];
-                    }
-
                     //reset start offset when finish
                     if (self._config.heatmap.enabled) {
-                        self.tracker.setStartOffset(0);
-                        self._setBrowserEvent(false);
+                      
+                      //if played offsite / embedded
+                      if (self._config.heatmap.on_site === false) {
+                        var data = {
+                          finished_at: self.player.video.time
+                        };   
+                        
+                        self.embedAnalytics.track(self.player.video.time, data);
+                      }
+
                     }
 
+                    self.tracker.setStartOffset(0);
+                    self._setBrowserEvent(false);
+       
                     self._stopPing();
 
-
                     try {
+                      if(typeof api.ads.postroll !== "undefined"){
+                        api.ads.on("ad-postroll-finished", function(e){
+                          setTimeout(function () {
+                            $.magnificPopup.instance.close()
+                          }, 500);
+                        });
+                      } else {                          
                         if ($.magnificPopup.instance.isOpen) {
-                            setTimeout(function () {
-                                $.magnificPopup.instance.close()
-                            }, 500);
-                        }
-                    } catch (e) {}
-
-
+                          setTimeout(function () {
+                              $.magnificPopup.instance.close()
+                          }, 500);
+                        }                          
+                      }
+                    } catch (e) { }
+                    
                 }).on("hlsLevelSwitch", function (e, api, data) {
-                    var level = api.engine.hlsjs.levels[data.level];
+                    var level = api.engine.hlsjs.levels[ data.level ];
 
                     console.log("level index:", data.level);
                     console.log("width:", level.width, "height:", level.height);
+                    
                 })
 
                 .on("shutdown unload", function () {
+                  
                     self.timer.stop();
                     self._stopPing();
                     self._setBrowserEvent(false);
                     self.isPlaying = false;
-
-                    try {
-                        self.player.ready = false;
-                        //var adApi = flowplayer(self.advertisement_container);
-                        //adApi.shutdown();
-                    } catch (e) {
-                    }
                 })
 
                 .on('error', function () {
@@ -370,7 +500,7 @@ var VdyoPlayer = easejs.Class('Stack',
                     self.timer.stop();
                     api.pause();
 
-                    var error = arguments[2];
+                    var error = arguments[ 2 ];
                     switch (error.code) {
                         case 5:
                         case 10:
@@ -394,103 +524,94 @@ var VdyoPlayer = easejs.Class('Stack',
                         '</div>'
                     );
                 });
+
         },
 
         'private _promptUserToContinue': function (container, player, callback) {
-
-            // var popup = container.find('.popup');
-            // // var loading = container.find('.fp-waiting');
+            var popup = container.find('.popup-wrapper');
+            // var loading = container.find('.fp-waiting');
             var self = this;
 
-            // self._config.promotingUserToContinue = true;
-            // player.pause();
+            self._config.promotingUserToContinue = true;
 
-            // container.find('.popup-wrapper').show();
-            // // loading.show();
-            // popup.hide();
+            //don't stop the video if has advertisement
+            if($.isEmptyObject(self._config.advertisements) !== false){
+              player.resume(); 
+            } else {
+              player.pause();
+            }       
+            
+            $.post('/hls/continue', $.param({
+                content_type: this._config.content.type,
+                content_id: this._config.content.id
+            }))
+            .done(function (result) { 
+                if (result.previously_watched === true) { 
+                    if($.isEmptyObject(self._config.advertisements) !== false){
+                      player.resume();
+                      player.ads.on("ad-completed", function (e, api, err) {
+                            popup.show();
+                      });
+                    } else {
+                      popup.show();
+                    }
+                    // loading.hide();
 
-            // if (player.engine && player.engine.engineName == "hlsjs") {
-            //     player.engine.hlsjs.stopLoad();
-            // }
+                    popup.find('.continue').on('click', function (e) {
+                        e.preventDefault();
+                        delete self._config.advertisementsTime[0];
+                        popup.hide();
+                        // loading.show();
 
-            // $.post('/hls/continue', $.param({
-            //     content_type: this._config.content.type,
-            //     content_id: this._config.content.id
-            // }))
-            //     .done(function (result) {
-            //         if (result.previously_watched) {
-            //             popup.show();
-            //             // loading.hide();
+                        if (player.engine && player.engine.engineName == "hlsjs") {
+                            player.engine.hlsjs.startLoad();
+                        }
 
-            //             popup.find('.continue').on('click', function (e) {
-            //                 e.preventDefault();
-            //                 delete self._config.advertisementsTime[0];
-            //                 popup.hide();
-            //                 // loading.show();
+                        player.seek(result.time, function (e, api) {
+                            container.find('.popup-wrapper').hide();
 
-            //                 if (player.engine && player.engine.engineName == "hlsjs") {
-            //                     player.engine.hlsjs.startLoad();
-            //                 }
+                            api.resume();
+                            self._config.promotingUserToContinue = false;
+                        });
+                    });
 
-            //                 player.seek(result.time, function (e, api) {
-            //                     container.find('.popup-wrapper').hide();
+                    popup.find('.startover').on('click', function (e) {
+                        e.preventDefault();
 
-            //                     api.resume();
-            //                     self._config.promotingUserToContinue = false;
-            //                 });
-            //             });
+                        if (player.engine && player.engine.engineName == "hlsjs") {
+                            player.engine.hlsjs.startLoad();
+                        }
 
-            //             popup.find('.startover').on('click', function (e) {
-            //                 e.preventDefault();
+                        self._config.promotingUserToContinue = false;
+                        container.find('.popup-wrapper').hide();
+                        player.resume();
 
+                        callback();
+                    });
+                } else {
+                    if (player.engine && player.engine.engineName == "hlsjs") {
+                        player.engine.hlsjs.startLoad();
+                    }
 
-            //                 if (player.engine && player.engine.engineName == "hlsjs") {
-            //                     player.engine.hlsjs.startLoad();
-            //                 }
+                    self._config.promotingUserToContinue = false;
+                    container.find('.popup-wrapper').hide();
 
+                    player.resume();
 
-            //                 self._config.promotingUserToContinue = false;
-            //                 container.find('.popup-wrapper').hide();
+                    callback();
+                }
+            })
+            .fail(function () {
+                self._config.promotingUserToContinue = false;
 
-            //                 if (!self._config.advertisementsTime[0]) {
-            //                     player.resume();
-            //                 }
+                if (player.engine && player.engine.engineName == "hlsjs") {
+                    player.engine.hlsjs.startLoad();
+                }
 
-            //                 callback();
-            //             });
-            //         } else {
-
-            //             if (player.engine && player.engine.engineName == "hlsjs") {
-            //                 player.engine.hlsjs.startLoad();
-            //             }
-
-            //             container.find('.popup-wrapper').hide();
-
-            //             self._config.promotingUserToContinue = false;
-            //             if (!self._config.advertisementsTime[0]) {
-            //                 player.resume();
-            //             }
-
-            //             callback();
-            //         }
-            //     })
-            //     .fail(function () {
-            //         self._config.promotingUserToContinue = false;
-
-
-            //         if (player.engine && player.engine.engineName == "hlsjs") {
-            //             player.engine.hlsjs.startLoad();
-            //         }
-
-
-            //         if (!self._config.advertisementsTime[0]) {
-            //             player.resume();
-            //         }
-
-            //         callback();
-            //         container.find('.popup-wrapper').hide();
-            //     })
-
+                player.resume();
+                callback();
+                container.find('.popup-wrapper').hide();
+            })
 
             self._config.promotingUserToContinue = false;
             container.find('.popup-wrapper').hide();
@@ -499,202 +620,78 @@ var VdyoPlayer = easejs.Class('Stack',
             if (player.engine && player.engine.engineName == "hlsjs") {
                 player.engine.hlsjs.startLoad();
             }
-
-
-            if (!self._config.advertisementsTime[0]) {
-                player.resume();
-            }
+            
 
             callback();
 
         },
 
-        /*'private _playAdvertisement': function (api, time) {
-            var type = false;
-            var self = this;
-
-            for (var advertisementTime in this._config.advertisementsTime) {
-                if (this.player.video.time - advertisementTime >= 0) {
-                    type = this._config.advertisementsTime[advertisementTime];
-                    delete this._config.advertisementsTime[advertisementTime];
-                }
-            }
-
-            if (type) {
-                console.log('ads type', self._config.advertisements[type].url);
-                var resumed = false;
-                var adPlayer = self._buildPlayer(self.advertisement_container, self._config.advertisements[type].url, null, true);
-
-                if (type == 'pre') {
-                    self.player.pause();
-                    self._resumeAdvertisment(adPlayer);
-                } else {
-                    self.advertisement_container.css('top', '-99999em');
-                }
-
-                adPlayer
-                    .on("progress", function () {
-                        // var loading = self.video_container.find('.fp-waiting');
-                        // loading.hide();
-
-                        if (!adPlayer) {
-                            return;
-                        }
-
-                        if (type != 'pre' && !resumed && Math.round(arguments[2]) === 0) {
-                            resumed = true;
-                            self._resumeAdvertisment(adPlayer);
-                        }
-
-                        if (type == 'pre' && self.player.playing && self.player.ready) {
-                            self.player.pause();
-                        }
-
-                        try {
-                            // show skip button
-                            if (Math.round(adPlayer.video.duration / 2.5) < arguments[2]) {
-                                self.advertisement_container.find('.skip-btn')
-                                    .css('padding', '0 60px')
-                                    .on('click', function (e) {
-                                        if (!adPlayer) {
-                                            return;
-                                        }
-
-                                        e.preventDefault();
-                                        adPlayer.shutdown();
-                                    });
-                            }
-                        } catch (error) {
-
-                        }
-                    })
-                    .on("buffer", function () {
-                        // var loading = self.video_container.find('.fp-waiting');
-                        // loading.show();
-                    })
-                    .on("beforeseek", function (e) {
-                        e.preventDefault();
-                    })
-                    .on("finish error shutdown", function () {
-                        // self.advertisementAnalytics.setContent(self._config.advertisements[type]);
-                        // self.advertisementAnalytics.track();
-                        delete self._config.advertisements[type];
-
-                        if ((self.player.video.duration - self.player.video.time) > 0) {
-                            self.player.resume();
-                        }
-
-                        adPlayer = null;
-                        self.video_container.css('top', '-100%');
-                        //self.advertisement_container.css('position', 'inherit');
-                        //self.advertisement_container.html('');
-                        //self.advertisement_container.removeClass("flowplayer is-mouseout is-ready is-paused is-paused is-fullscreen");
-                        self._config.playingAdvertisement = false;
-                        //self.advertisement_container.find('.skip-btn').css('padding', '0');
-
-                    });
-            }
-        },*/
-
-        'private _resumeAdvertisment': function (adApi, pre) {
-            this._config.playingAdvertisement = true;
-
-            // hide and pause the main player
-            this.video_container.css('top', '-99999em');
-            if (this.player.playing && this.player.ready) {
-                this.player.pause();
-            }
-
-            // make advertisement player visible
-            //this.advertisement_container.css('top', '-100%');
-
-            // explicitly set advertisement player to full screen mode if the main player is in full screen mode
-            /*if (this.player.isFullscreen) {
-                this.advertisement_container.addClass('is-fullscreen').css('position', 'absolute');
-            }*/
-
-            // set volume to advertisement player
-            adApi.volume(this.player.volumeLevel);
-
-            // disable seek
-            /*this.advertisement_container.removeClass("is-touch");
-            $(".fp-buffer, .fp-progress", this.advertisement_container).on("mousedown touchstart", function (e) {
-                e.stopPropagation();
-            });*/
-        },
-
-        'private _buildPlayer': function (container, source, logo, autoplay) {
+        'private _buildPlayer': function (container, logo, autoplay) {
             var hlsjs = {
                 recover: -1,
                 debug: false,
                 defaultAudioCodec: "mp4a.40.2",
                 startFragPrefetch: true,
-                levelLoadingTimeOut : 20000,
-                levelLoadingMaxRetry : 10,
-                levelLoadingRetryDelay : 500,
-                fragLoadingTimeOut : 30000,
-                fragLoadingMaxRetry : 10,
+                levelLoadingTimeOut: 20000,
+                levelLoadingMaxRetry: 10,
+                levelLoadingRetryDelay: 500,
+                fragLoadingTimeOut: 30000,
+                fragLoadingMaxRetry: 10,
                 startLevel: 0
             };
-
-            container.flowplayer({
+            
+            var ads = ($.isEmptyObject(this._config.advertisements) === false)? this._config.advertisements : [];
+            var playerConfig = {
                 hlsjs: hlsjs,
                 logo: logo ? logo : null,
                 key: this._config.license,
                 flashfit: true,
                 advance: true,
-                muted: true,
+                muted: this._config.mute,
+                ima: {ads: ads},
                 brand: {
                     text: "VDYO",
                     showOnOrigin: false
                 },
                 embed: false,
-                autoplay: false,
-                // autoplay: autoplay ? autoplay : false,
+                // autoplay: this._config.autoplay,
+                autoplay: true,
                 adaptiveRatio: true,
                 fullscreen: true,
                 native_fullscreen: true,
                 swfHls: this._config.swfHls,
                 swf: this._config.swf,
-                ima: {
-                    // adverts configuration
-                    ads: [{
-                      // mandatory: schedule ad time
-                      // here: 3 seconds into the video
-                      time: 0,
-                      // request an advert with an adTag URL
-                      //adTag: 'http://ab168640.adbutler-zilon.com/vast.spark?setID=4015&ID=168640&pid=27614'
-                      //adTag: 'http://localhost/sokil/index.php'
-                      adTag: 'http://45.76.125.33/player/sokil/index.php'
-                    }
-                    ],
-                    
-                  },
-                customPlaylist: true,
-                // adverts in embedded player with iframe embedding
-                embed: {
-                   iframe: "//flowplayer.org/standalone/vast/preroll-iframe.html"
-                },
                 clip: {
                     hlsQualities: true,
+                    // autoplay: this._config.autoplay,
                     autoplay: false,
-                    // autoplay: autoplay ? autoplay : false,
                     hlsjs: {
                         defaultAudioCodec: "mp4a.40.2"
                     },
-                    sources: [{
-                        type: "application/x-mpegurl",
-                        src: source
-                    }]
+                    sources: []
                 }
-            });
+            };
 
-            // container.find('.fp-waiting').text('Loading');
+            console.log('video length', Object.keys(this._videos).length === 1);
+            console.log(this._videos);
+            console.log(playerConfig);
+
+            if (Object.keys(this._videos).length === 1) {
+                playerConfig.clip.sources = [{
+                    type: "application/x-mpegurl",
+                    src: this._videos[0].sources[0].src,
+                    content_type: 'main',
+                    position: 'main'
+                }];
+            } else {
+                playerConfig.playlist = this._videos
+            }
+
+            container.flowplayer(playerConfig);
 
             flowplayer.conf.fullscreen = true;
-
+            console.log(flowplayer(container));
             return flowplayer(container);
-            //return null;
         },
 
         'private _setBrowserEvent': function (sendBeacon) {
@@ -726,8 +723,8 @@ var VdyoPlayer = easejs.Class('Stack',
                 }
             } catch (e) {
                 if (navigator.mimeTypes
-                    && navigator.mimeTypes['application/x-shockwave-flash'] != undefined
-                    && navigator.mimeTypes['application/x-shockwave-flash'].enabledPlugin) {
+                    && navigator.mimeTypes[ 'application/x-shockwave-flash' ] != undefined
+                    && navigator.mimeTypes[ 'application/x-shockwave-flash' ].enabledPlugin) {
                     hasFlash = true;
                 }
             }
