@@ -57,6 +57,31 @@ api.load({
   ]
 });
 });
+	
+				var data = {
+				content: {
+					url: 'https://s3-ap-southeast-1.amazonaws.com/vdyopublic/6109_593164a006664/play.m3u8',
+					title: 'abc',
+					id: 123,
+					creator: 123,
+					type: 'video'
+				},
+				advertisement: {
+					name: 'abc',
+					url: 'https://s3-ap-southeast-1.amazonaws.com/vdyopublic/79_59263fc1b59d1/play.m3u8',
+					id: 123,
+					type: "ads",
+					vast_xml: {
+						0: {
+							position: "pre_roll",
+							skippable: true,
+							xml: "https://vdyo.github.io/player/sokil/vast.xml"
+						}
+					}
+				}
+			};
+	
+	console.log(data);
 </script>	
 	
 
